@@ -40,11 +40,11 @@
             <v-tooltip right>
               <template v-slot:activator="{ on }">
                 <v-btn
-                  :href="''"
                   icon
                   large
                   target="_blank"
                   v-on="on"
+                  @click="testSocketMsg"
                 >
                   <v-icon large>mdi-code-tags</v-icon>
                 </v-btn>
@@ -63,16 +63,19 @@
 
 <script>
   import { mapActions } from 'vuex'
+  import Channels from '@/components/mixins/Channels'
 
   export default {
+    mixins: [Channels],
     data: () => ({
       drawer: null,
     }),
-    created () {
+    async created () {
       this.$vuetify.theme.dark = true
+      await this.loadProfile()
     },
     methods: {
-      ...mapActions(['logOut'])
+      ...mapActions(['logOut', 'loadProfile', 'testSocketMsg'])
     }
   }
 </script>

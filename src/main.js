@@ -1,7 +1,4 @@
 import Vue from "vue";
-Vue.config.devtools = true
-Vue.config.performance = true
-
 import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
@@ -9,8 +6,22 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import Axios from 'axios'
 import Vuelidate from "vuelidate";
+import ActionCableVue from 'actioncable-vue';
+import env from '@/components/helpers/EnvVariables.js'
 
 Vue.prototype.$http = Axios;
+
+console.log(env.cable)
+
+const token = localStorage.getItem('token')
+
+Vue.use(ActionCableVue, {
+  debug: true,
+  debugLevel: 'error',
+  connectionUrl: `${env.cable}?token=${token}`,
+  connectImmediately: false,
+  store
+});
 
 
 // Vue.prototype.$http.interceptors.response.use(response => {
@@ -23,10 +34,9 @@ Vue.prototype.$http = Axios;
 //   return error;
 // });
 
-const token = localStorage.getItem('token')
-
 if (token) {
   Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+  Vue.prototype.$http.defaults.headers.common['Content-Type'] = 'application/json'
 }
 
 Vue.config.productionTip = false;
