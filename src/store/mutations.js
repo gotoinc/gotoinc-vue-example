@@ -17,5 +17,8 @@ export default {
   },
   set_profile(state, payload) {
     state.user = payload
+  },
+  set_groups(state, payload) {
+    state.groups = payload
   }
 }

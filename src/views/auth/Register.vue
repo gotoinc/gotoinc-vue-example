@@ -36,16 +36,25 @@
                     :error-messages="emailError($v.form.email)"
                   ></v-text-field>
                   <v-text-field
-                    label="Username"
-                    name="username"
+                    label="Name"
+                    name="name"
                     prepend-icon="mdi-account"
                     type="text"
-                    v-model="form.username"
-                    @input="$v.form.username.$touch()"
-                    :class="{ 'clr-error': $v.form.username.$error }"
-                    :error-messages="usernameError($v.form.username)"
+                    v-model="form.name"
+                    @input="$v.form.name.$touch()"
+                    :class="{ 'clr-error': $v.form.name.$error }"
+                    :error-messages="nameError($v.form.name)"
                   ></v-text-field>
-
+                  <v-text-field
+                    label="Last name"
+                    name="last_name"
+                    prepend-icon="mdi-account"
+                    type="text"
+                    v-model="form.last_name"
+                    @input="$v.form.last_name.$touch()"
+                    :class="{ 'clr-error': $v.form.last_name.$error }"
+                    :error-messages="lastNameError($v.form.last_name)"
+                  ></v-text-field>
                   <v-text-field
                     id="password"
                     label="Password"
@@ -68,6 +77,17 @@
                     :class="{ 'clr-error': $v.form.repeatPassword.$error }"
                     :error-messages="repeatPasswordError($v.form.repeatPassword)"
                   ></v-text-field>
+                  <v-select
+                    v-model="form.group_id"
+                    :items="groups"
+                    label="Select Group"
+                    item-text="name"
+                    item-value="id"
+                    @input="$v.form.group_id.$touch()"
+                    :class="{ 'clr-error': $v.form.group_id.$error }"
+                    :error-messages="GroupError($v.form.group_id)"
+                  >
+                  </v-select>
                 </v-form>
               </v-card-text>
               <v-card-actions>
@@ -89,6 +109,7 @@
   //import { mapActions } from 'vuex'
   import ErrorAlert from '@/components/common/ErrorAlert'
   import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
+  import { mapState } from 'vuex'
 
   export default {
     components: {
@@ -98,30 +119,36 @@
       return {
         form: {
           email: '',
-          username: '',
+          name: '',
+          last_name: '',
           password: '',
-          repeatPassword: ''
+          repeatPassword: '',
+          group_id: null
         },
         error: ''
       }
     },
     computed: {
+      ...mapState(['groups'])
     },
     validations: {
       form: {
         email: { required, email },
-        username: { required, minLength: minLength(3) },
+        name: { required, minLength: minLength(3) },
+        last_name: { required, minLength: minLength(3) },
         password: { required, minLength: minLength(6) },
         repeatPassword: { 
           required,
           sameAsPassword: sameAs(function() { 
             return this.form.password
           })
-        }
+        },
+        group_id: { required }
       }
     },
     created () {
       this.$vuetify.theme.dark = false
+      this.$store.dispatch('getGroups')
     },
     methods: {
       register(validation) {
@@ -148,13 +175,24 @@
           return []
         }
       },
-      usernameError(field) {
+      nameError(field) {
         if (!field.$dirty) {
           return
         } else if (!field.required) {
-          return 'Username is required'
+          return 'Name is required'
         } else if (!field.minLength) {
-          return 'Username is too short'
+          return 'Name is too short'
+        } else {
+          return []
+        }
+      },
+      lastNameError(field) {
+        if (!field.$dirty) {
+          return
+        } else if (!field.required) {
+          return 'Last name is required'
+        } else if (!field.minLength) {
+          return 'Last name is too short'
         } else {
           return []
         }
@@ -177,6 +215,15 @@
           return 'Repeat password'
         } else if (!field.sameAsPassword) {
           return 'Passwords do not match'
+        } else {
+          return []
+        }
+      },
+      GroupError(field) {
+        if (!field.$dirty) {
+          return
+        } else if (!field.required) {
+          return 'Group is required'
         } else {
           return []
         }

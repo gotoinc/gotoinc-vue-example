@@ -1,6 +1,7 @@
 import axios from 'axios'
 import router from '@/router'
 import env from '@/components/helpers/EnvVariables.js'
+import inPrimaryLocale from '../components/helpers/locales.js'
 
 export default {
   login({commit}, credentials) {
@@ -37,6 +38,7 @@ export default {
         .catch(err => {
           commit('auth_error', err)
           localStorage.removeItem('token')
+          console.log(err.response)
           let key = Object.keys(err.response.data)[0]
           let msg = key + " " + err.response.data[key][0]
           reject(msg)
@@ -67,5 +69,19 @@ export default {
         content: 'Dima'
       }
     });
+  },
+  getGroups({ commit }) {
+    axios({url: `${env.api}/groups.json`, method: 'GET' })
+    .then(resp => {
+      const { data }  = resp.data
+      const filteredGroups = data.map(group => ({
+                          name: inPrimaryLocale(group.attributes.name),
+                          id: group.attributes.id
+                        }))
+      commit('set_groups', filteredGroups)
+    })
+    .catch(err => {
+      console.log(err.response)
+    })
   }
 }
