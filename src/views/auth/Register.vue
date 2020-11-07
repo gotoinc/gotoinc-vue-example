@@ -85,13 +85,14 @@
                     item-value="id"
                     @input="$v.form.group_id.$touch()"
                     :class="{ 'clr-error': $v.form.group_id.$error }"
-                    :error-messages="GroupError($v.form.group_id)"
+                    :error-messages="groupError($v.form.group_id)"
                   >
                   </v-select>
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <v-btn link text to="/login">Sign in</v-btn>
+                <v-btn link text to="/create-group">Create group</v-btn>
                 <v-spacer ></v-spacer>
                 <ErrorAlert v-if="error.length" :data="error"> </ErrorAlert>
                 <v-spacer ></v-spacer>
@@ -219,7 +220,7 @@
           return []
         }
       },
-      GroupError(field) {
+      groupError(field) {
         if (!field.$dirty) {
           return
         } else if (!field.required) {

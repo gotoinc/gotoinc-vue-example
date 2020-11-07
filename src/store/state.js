@@ -2,5 +2,7 @@ export default {
   status: '',
   token: localStorage.getItem('token') || '',
   user : {},
-  groups: []
+  groups: [],
+  universities: [],
+  locale: 'en'
 }

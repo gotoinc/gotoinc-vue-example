@@ -1,8 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Main from "@/views/Main";
-import Register from "@/views/auth/Register";
-import Login from "@/views/auth/Login";
 import store from "@/store"
 
 Vue.use(VueRouter);
@@ -11,7 +8,7 @@ const routes = [
   {
     path: '/register',
     name: 'register',
-    component: Register,
+    component: () => import("@/views/auth/Register"),
     meta: {
         guest: true
     }
@@ -19,7 +16,15 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: Login,
+    component: () => import("@/views/auth/Login"),
+    meta: {
+        guest: true
+    }
+  },
+  {
+    path: '/create-group',
+    name: 'create-group',
+    component: () => import("@/views/groups/CreateGroup"),
     meta: {
         guest: true
     }
@@ -27,7 +32,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Main,
+    component: () => import("@/views/Main"),
     meta: {
         requiresAuth: true
     }

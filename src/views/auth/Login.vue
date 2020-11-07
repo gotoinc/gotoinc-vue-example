@@ -51,6 +51,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-btn link text to="/register">Sign up</v-btn>
+                <v-btn link text to="/create-group">Create group</v-btn>
                 <v-spacer ></v-spacer>
                 <ErrorAlert v-if="error.length" :data="error"> </ErrorAlert>
                 <v-spacer ></v-spacer>

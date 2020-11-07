@@ -20,5 +20,11 @@ export default {
   },
   set_groups(state, payload) {
     state.groups = payload
+  },
+  set_universities(state, payload) {
+    state.universities = payload
+  },
+  set_locale(state, payload) {
+    state.locale = payload
   }
 }

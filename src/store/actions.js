@@ -55,6 +55,7 @@ export default {
     .then(resp => {
       const { attributes } = resp.data.data
       commit('set_profile', attributes)
+      commit('set_locale', attributes.locale)
     })
     .catch((error) => {
       console.log(error)
@@ -83,5 +84,22 @@ export default {
     .catch(err => {
       console.log(err.response)
     })
+  },
+  getUniversities({ commit }) {
+    axios({url: `${env.api}/universities.json`, method: 'GET' })
+    .then(resp => {
+      const { data }  = resp.data
+      const filteredUniversities = data.map(group => ({
+                          name: group.attributes.name,
+                          id: group.attributes.id
+                        }))
+      commit('set_universities', filteredUniversities)
+    })
+    .catch(err => {
+      console.log(err.response)
+    })
+  },
+  createGroup(_, group) {
+    return axios({url: `${env.api}/groups`, data: group, method: 'POST' })
   }
 }
