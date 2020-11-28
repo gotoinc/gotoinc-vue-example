@@ -22,19 +22,106 @@ const routes = [
     }
   },
   {
-    path: '/create-group',
-    name: 'create-group',
-    component: () => import("@/views/groups/CreateGroup"),
+    path: '/register-university',
+    name: 'register-university',
+    component: () => import("@/views/universities/RegisterUniversity.vue"),
     meta: {
         guest: true
     }
   },
   {
-    path: '/',
-    name: 'home',
+    path: '/users',
+    name: 'users',
     component: () => import("@/views/Main"),
+    children: [
+      {
+        path: '/users/add',
+        name: 'add-users',
+        component: () => import("@/components/users/AddUser.vue")
+      },
+      {
+        path: '/users/list',
+        name: 'list-users',
+        component: () => import("@/components/users/UsersList.vue")
+      }
+    ],
     meta: {
         requiresAuth: true
+    }
+  },
+  {
+    path: '/events',
+    name: 'events',
+    component: () => import("@/views/Main"),
+    children: [
+      {
+        path: '/events/add',
+        name: 'add-event',
+        component: () => import("@/components/events/AddEvent.vue")
+      },
+      {
+        path: '/events/calendar',
+        name: 'event-calendar',
+        component: () => import("@/components/events/EventsCalendar.vue")
+      },
+      {
+        path: '/events/list',
+        name: 'list-events',
+        component: () => import("@/components/events/AllEvents.vue")
+      }
+    ],
+    meta: {
+        requiresAuth: true
+    }
+  },
+  {
+    path: '/groups',
+    name: 'groups',
+    component: () => import("@/views/Main"),
+    children: [
+      {
+        path: '/groups/add',
+        name: 'new-group',
+        component: () => import("@/components/groups/AddGroup.vue"),
+      }
+    ],
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/conversations',
+    name: 'conversations',
+    component: () => import("@/views/Main"),
+    children: [
+      {
+        path: '/conversations/my',
+        name: 'all-conversations',
+        component: () => import("@/components/conversations/AllConversations.vue"),
+        children: [
+          {
+            path: '/conversations/my/:id',
+            name: 'single-conversation',
+            component: () => import("@/components/conversations/SingleConversation.vue"),
+          }
+        ]
+      },
+      {
+        path: '/conversations/new',
+        name: 'new-conversation',
+        component: () => import("@/components/conversations/NewConversation.vue"),
+      }
+    ],
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/',
+    name: 'main',
+    component: () => import("@/views/Main"),
+    meta: {
+      requiresAuth: true
     }
   }
 ];

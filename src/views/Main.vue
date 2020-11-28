@@ -5,16 +5,7 @@
       app
       clipped
     >
-      <v-list dense>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-cog</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Settings</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <Menu></Menu>
     </v-navigation-drawer>
 
     <v-app-bar
@@ -24,33 +15,31 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Test Application</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn small right @click.prevent="logOut">Log out</v-btn>
+      <v-col :cols=1 class="locale-switch">
+        <v-select
+          :items="['en', 'uk']"
+          :value="localeModel"
+          @change="changeLocale"
+        >
+        </v-select>
+      </v-col>
+        <v-switch
+          v-model="darkMode"
+          :label="$t('darkMode')"
+          class="switch-mode"
+        ></v-switch>
+      <v-btn small right @click.prevent="logOut">{{ $t('logOut') }}</v-btn>
     </v-app-bar>
 
     <v-main>
       <v-container
-        class="fill-height"
         fluid
       >
         <v-row
           align="center"
           justify="center"
         >
-          <v-col class="shrink">
-            <v-tooltip right>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  icon
-                  large
-                  target="_blank"
-                  v-on="on"
-                  @click="testSocketMsg"
-                >
-                  <v-icon large>mdi-code-tags</v-icon>
-                </v-btn>
-              </template>
-            </v-tooltip>
-          </v-col>
+          <router-view></router-view>
         </v-row>
       </v-container>
     </v-main>
@@ -62,20 +51,67 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapGetters, mapState } from 'vuex'
   import Channels from '@/components/mixins/Channels'
+  import Menu from '@/components/common/Menu'
 
   export default {
     mixins: [Channels],
-    data: () => ({
-      drawer: null,
-    }),
-    async created () {
+    components: {Menu},
+    data() {
+      return {
+        drawer: null,
+        darkMode: true,
+        localeModel: 'en'
+      }
+    },
+    created () {
       this.$vuetify.theme.dark = true
-      await this.loadProfile()
+      this.loadProfile().then(attributes => {
+        const locale = attributes.locale
+        this.localeModel = locale
+        this.$i18n.locale = locale
+        this.$vuetify.lang.current = locale
+      })
+    },
+    computed: {
+      ...mapState(['locale']),
+      ...mapGetters(['isUniversityAdmin', 'isGroupAdmin'])
     },
     methods: {
-      ...mapActions(['logOut', 'loadProfile', 'testSocketMsg'])
+      ...mapActions(['logOut', 'loadProfile', 'testSocketMsg']),
+      changeLocale(val) {
+        if (this.locale !== val) {
+          this.$store.dispatch('changeLocale', val).then(() => {
+            this.$i18n.locale = val
+            this.$vuetify.lang.current = val
+            this.$store.commit('set_locale', val)
+          })
+        }
+      }
+    },
+    watch: {
+      darkMode(val) {
+        this.$vuetify.theme.dark = val
+      }
     }
   }
 </script>
+
+<style lang="scss">
+  template {
+    width: 100%;
+  }
+  .v-list-group__items {
+    padding-left: 20px;
+  }
+  .switch-mode {
+    padding-top: 22px !important;
+    padding-right: 20px;
+  }
+  .locale-switch {
+    .v-input {
+      padding-top: 15px;
+    }
+  }
+</style>

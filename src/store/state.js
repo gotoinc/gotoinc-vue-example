@@ -4,5 +4,6 @@ export default {
   user : {},
   groups: [],
   universities: [],
-  locale: 'en'
+  locale: 'en',
+  conversations: []
 }

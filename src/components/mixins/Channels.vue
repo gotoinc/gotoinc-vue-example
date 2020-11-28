@@ -2,7 +2,7 @@
   <div></div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'Channels',
@@ -12,11 +12,12 @@ export default {
     }
   },
   computed: {
-    ...mapState(['user'])
+    ...mapState(['user', 'conversations', 'currentConversationId']),
+    ...mapGetters([])
   },
   created() {
     this.subscribeToNotification()
-    this.subscribeToUser()    
+    this.subscribeToUser() 
   },
   channels: {
     NotificationChannel: {
@@ -33,6 +34,21 @@ export default {
       },
       received(data) {
         console.log('USER CHANNEL - received', data);
+      }
+    },
+    ConversationChannel: {
+      connected() {
+        console.log('Connected to the conversation channel');
+      },
+      received(data) {
+        console.log('CONVERSATION CHANNEL - received', data);
+        const message = {
+          ...data.chat_message,
+          sender_id: data.sender_id
+        }
+
+        const index = this.conversations.findIndex(({id}) => id == message.conversation_id)
+        this.$store.commit('add_chat_message', { message, index})
       }
     }
   },
