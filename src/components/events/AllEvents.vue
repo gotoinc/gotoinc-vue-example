@@ -47,7 +47,7 @@
               <v-tooltip bottom v-if="!event.isParticipant">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                    dark
+                    :dark="$vuetify.theme.dark"
                     icon
                     v-bind="attrs"
                     @click="willAttend(event.id)"
@@ -61,7 +61,7 @@
               <v-tooltip bottom v-else>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                    dark
+                    :dark="$vuetify.theme.dark"
                     icon
                     v-bind="attrs"
                     v-on="on"

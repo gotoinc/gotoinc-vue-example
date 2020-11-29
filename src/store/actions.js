@@ -139,5 +139,11 @@ export default {
         const index = state.conversations.findIndex(({id}) => id == conversation.id)
         commit('update_conversation', { conversation, index })
       })
+  },
+  getGroupUsers(_, groupId) {
+    return axios({url: `${env.api}/users.json?group_id=${groupId}`, method: 'GET' })
+  },
+  createConversation(_, userId) {
+    return axios({url: `${env.api}/conversations`, data: {user_id: userId}, method: 'POST' })
   }
 }

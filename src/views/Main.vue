@@ -13,7 +13,7 @@
       clipped-left
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Test Application</v-toolbar-title>
+      <v-toolbar-title> {{ user.university ? user.university.name : '' }} - {{ mainGroup ? inPrimaryLocale(mainGroup.name) : '' }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-col :cols=1 class="locale-switch">
         <v-select
@@ -54,6 +54,7 @@
   import { mapActions, mapGetters, mapState } from 'vuex'
   import Channels from '@/components/mixins/Channels'
   import Menu from '@/components/common/Menu'
+  import inPrimaryLocale from '@/components/helpers/locales.js'
 
   export default {
     mixins: [Channels],
@@ -75,8 +76,8 @@
       })
     },
     computed: {
-      ...mapState(['locale']),
-      ...mapGetters(['isUniversityAdmin', 'isGroupAdmin'])
+      ...mapState(['locale', 'user']),
+      ...mapGetters(['isUniversityAdmin', 'isGroupAdmin', 'mainGroup'])
     },
     methods: {
       ...mapActions(['logOut', 'loadProfile', 'testSocketMsg']),
@@ -88,6 +89,9 @@
             this.$store.commit('set_locale', val)
           })
         }
+      },
+      inPrimaryLocale(text) {
+        return inPrimaryLocale(text)
       }
     },
     watch: {

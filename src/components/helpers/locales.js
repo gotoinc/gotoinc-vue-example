@@ -81,7 +81,9 @@ export const messages = {
     typeMessage: "Type message",
     search: "Search",
     searchPhrase: "Search phrase",
-    university: "University"
+    university: "University",
+    searchByName: "Search by name or last name",
+    createConversationWith: "Create conversation with"
   },
   uk: {
     create: "Створити",
@@ -130,6 +132,8 @@ export const messages = {
     typeMessage: "Ваше повідомлення",
     search: "Пошук",
     searchPhrase: "Назва заходу",
-    university: "Навчальний заклад"
+    university: "Навчальний заклад",
+    searchByName: "Пошук за ім'ям або прізвищем",
+    createConversationWith: "Створити чат з"
   }
 }
