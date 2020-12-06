@@ -2,7 +2,7 @@ var fs = require('fs');
 
 module.exports = {
   transpileDependencies: ["vuetify"],
-  lintOnSave: false,
+
   // devServer: {
   //   open: process.platform === 'darwin',
   //   host: '0.0.0.0',
@@ -13,4 +13,9 @@ module.exports = {
   //   },
   //   hotOnly: false,
   //  }
+  lintOnSave: false,
+
+  pwa: {
+    themeColor: '#2396F3'
+  }
 };
