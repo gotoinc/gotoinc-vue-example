@@ -5,7 +5,7 @@ app = express()
 app.use(serveStatic(__dirname))
 
 app.get('/',function(req,res){
-  res.sendFile(__dirname + "/index.html");
+  res.redirect("/");
 });
 
 const port = process.env.PORT || 5000
