@@ -3,12 +3,13 @@
 </template>
 <script>
 import { mapState, mapGetters } from 'vuex'
+import inPrimaryLocale from '@/components/helpers/locales.js'
 
 export default {
   name: 'Channels',
   data() {
     return {
-
+      check: true
     }
   },
   computed: {
@@ -17,7 +18,6 @@ export default {
   },
   created() {
     this.subscribeToNotification()
-    this.subscribeToUser() 
   },
   channels: {
     NotificationChannel: {
@@ -30,9 +30,18 @@ export default {
     },
     UserChannel: {
       connected() {
-        console.log('Connected to the user channel');
+        console.log('Connected to the user channel - ', this.user.id);
       },
       received(data) {
+        if (data.type === 'alert') {
+          const message = inPrimaryLocale(data.message)
+          this.$notify({
+            group: 'notifications',
+            type: 'error',
+            title: 'Event alert',
+            text: message
+          });
+        }
         console.log('USER CHANNEL - received', data);
       }
     },
@@ -58,11 +67,23 @@ export default {
         channel: 'NotificationChannel'
       });
     },
-    subscribeToUser() {
+    subscribeToUser(id) {
       this.$cable.subscribe({
         channel: 'UserChannel',
-        room: this.user.id
+        room: id
       });
+    }
+  },
+  watch: {
+    user: {
+      handler(user) {
+        if (!user || !this.check) return
+        console.log('Trying to connect', user)
+        this.check = false
+
+        this.subscribeToUser(user.id) 
+      },
+      immediate: true
     }
   }
 }

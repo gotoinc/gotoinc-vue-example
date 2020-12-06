@@ -96,17 +96,15 @@
             <v-toolbar
               :color="selectedEvent.color"
             >
-              <v-btn icon>
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-tooltip bottom>
+              <v-tooltip bottom v-if="!selectedEvent.isParticipant">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                    dark
+                    :dark="$vuetify.theme.dark"
                     icon
                     v-bind="attrs"
+                    @click="willAttend(selectedEvent.id)"
                     v-on="on"
                   >
                     <v-icon>mdi-plus</v-icon>
@@ -114,8 +112,22 @@
                 </template>
                 <span>{{ $t('willAttend') }}</span>
               </v-tooltip>
+              <v-tooltip bottom v-else>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    :dark="$vuetify.theme.dark"
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon>mdi-check</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ $t('willAttend') }}</span>
+              </v-tooltip>
             </v-toolbar>
-            <v-card-text>
+            <v-card-text class="black-color">
+              <h3>{{ $t('description') }}</h3>
               <span dark v-html="selectedEvent.details"></span>
             </v-card-text>
             <v-card-actions>
@@ -161,20 +173,21 @@ export default {
     this.$store.dispatch('getAllEvents').then(resp => {
       this.allEvents = resp.data.data.map(user => {
         let tmp = { ...user.attributes }
-        // if (tmp.main_group_name) {
-        //   tmp.main_group_name = inPrimaryLocale(tmp.main_group_name)
-        // }
+        tmp.name = inPrimaryLocale(tmp.name)
+        tmp.description = inPrimaryLocale(tmp.description)
         return tmp
       })
       let calendarEvents = []
       this.allEvents.forEach(event => {
         calendarEvents.push({
+          id: event.id,
           name: event.name,
           details: event.description,
-          start: new Date(event.booking.date_from),
-          end: new Date(event.booking.date_to),
+          isParticipant: event.users.findIndex(({data}) => data.id == this.user.id) !== -1,
+          start: event.booking ? new Date(event.booking.date_from) : new Date(event.date),
+          end: event.booking ? new Date(event.booking.date_to) : new Date(event.date),
           color: this.colors[this.rnd(0, this.colors.length - 1)],
-          timed: true,
+          timed: !!event.booking,
         })
       })
       this.events = calendarEvents
@@ -182,7 +195,7 @@ export default {
     this.$refs.calendar.checkChange()
   },
   computed: {
-    ...mapState(['locale']),
+    ...mapState(['locale', 'user']),
   },
   methods: {
       viewDay ({ date }) {
@@ -222,6 +235,22 @@ export default {
       rnd (a, b) {
         return Math.floor((b - a + 1) * Math.random()) + a
       },
+      async willAttend(eventId) {
+        try {
+          let response = await this.$store.dispatch('willAttend', eventId)
+          const eventIndex = this.events.findIndex(({id}) => id == response.data.data.id)
+          console.log(eventIndex)
+          this.events[eventIndex].isParticipant = true
+        } catch (e) {
+          console.log(e)
+        }
+      },
     }
 }
 </script>
+
+<style lang="scss">
+  .black-color {
+    color: #000 !important;
+  }
+</style>

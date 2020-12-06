@@ -23,11 +23,25 @@
           </v-list-item>
         </v-list-group>
 
+        <v-list-group prepend-icon="mdi-certificate-outline" v-if="isUniversityAdmin">
+          <template slot='activator'>
+              <v-list-item-title>{{ $t('certificates') }}</v-list-item-title>
+          </template>
+          <v-list-item link :to="'/certificates/current'">
+            <v-list-item-icon>
+              <v-icon>mdi-certificate-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ $t('currentCertificat') }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+
         <v-list-group prepend-icon="mdi-account-multiple" v-if="isUniversityAdmin">
           <template slot='activator'>
               <v-list-item-title>{{ $t('groups') }}</v-list-item-title>
           </template>
-          <v-list-item link>
+          <v-list-item link :to="'/groups/list'">
             <v-list-item-icon>
               <v-icon>mdi-account-multiple</v-icon>
             </v-list-item-icon>
@@ -50,7 +64,7 @@
           <template slot='activator'>
               <v-list-item-title>{{ $t('buildings') }}</v-list-item-title>
           </template>
-          <v-list-item link>
+          <v-list-item link :to="'/buildings/list'">
             <v-list-item-icon>
               <v-icon>mdi-domain</v-icon>
             </v-list-item-icon>
@@ -58,7 +72,7 @@
               <v-list-item-title>{{ $t('allBuildings') }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item link :to="'/buildings/add'">
             <v-list-item-icon>
               <v-icon>mdi-home-plus</v-icon>
             </v-list-item-icon>
@@ -89,7 +103,7 @@
               <v-list-item-title>{{ $t('allEvents') }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item link v-if="isGroupAdmin">
+          <v-list-item link :to="'/events/add'"  v-if="isGroupAdmin">
             <v-list-item-icon>
               <v-icon>mdi-calendar-plus</v-icon>
             </v-list-item-icon>

@@ -80,8 +80,53 @@ const routes = [
     component: () => import("@/views/Main"),
     children: [
       {
+        path: '/groups/list',
+        name: 'list-groups',
+        component: () => import("@/components/groups/GroupsList.vue"),
+      },
+      {
         path: '/groups/add',
         name: 'new-group',
+        component: () => import("@/components/groups/AddGroup.vue"),
+      }
+    ],
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/buildings',
+    name: 'buildings',
+    component: () => import("@/views/Main"),
+    children: [
+      {
+        path: '/buildings/list',
+        name: 'list-buildings',
+        component: () => import("@/components/buildings/AllBuildings.vue"),
+      },
+      {
+        path: '/buildings/add',
+        name: 'new-building',
+        component: () => import("@/components/buildings/AddBuilding.vue"),
+      }
+    ],
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/certificates',
+    name: 'certificates',
+    component: () => import("@/views/Main"),
+    children: [
+      {
+        path: '/certificates/current',
+        name: 'current-certificate',
+        component: () => import("@/components/certificates/CurrentCertificate.vue"),
+      },
+      {
+        path: '/certificates/update',
+        name: 'update-certificate',
         component: () => import("@/components/groups/AddGroup.vue"),
       }
     ],

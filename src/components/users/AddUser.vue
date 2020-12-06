@@ -151,7 +151,7 @@
 			  }
 
         this.$store.dispatch('register', this.form)
-          .then(() => this.$router.push('/users-list'))
+          .then(() => this.$router.push('/users/list'))
           .catch(err => {
             this.error = err
           })

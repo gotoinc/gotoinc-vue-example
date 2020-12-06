@@ -4,7 +4,12 @@ import env from '@/components/helpers/EnvVariables.js'
 
 export default function inPrimaryLocale(text) {
   const currentLocale = store.state.locale || 'en'
-  return JSON.parse(text)[currentLocale]
+  try {
+    const result = JSON.parse(text)[currentLocale]
+    return result
+  } catch {
+    return text
+  } 
 }
 
 export function translateText(content) {
@@ -83,7 +88,14 @@ export const messages = {
     searchPhrase: "Search phrase",
     university: "University",
     searchByName: "Search by name or last name",
-    createConversationWith: "Create conversation with"
+    createConversationWith: "Create conversation with",
+    id: "ID",
+    currentcertIsValid: "Current certificat is valid",
+    download: "Download",
+    validTo: "Valid until",
+    update: "Update",
+    certificates: "Certificates",
+    currentCertificat : "Current ertificat"
   },
   uk: {
     create: "Створити",
@@ -134,6 +146,13 @@ export const messages = {
     searchPhrase: "Назва заходу",
     university: "Навчальний заклад",
     searchByName: "Пошук за ім'ям або прізвищем",
-    createConversationWith: "Створити чат з"
+    createConversationWith: "Створити чат з",
+    id: "Номер",
+    currentcertIsValid: "Поточний сертифікат дійсний",
+    download: "Завантажити",
+    validTo: "Строк придатності закінсується",
+    update: "Оновити",
+    certificates: "Сертифікати",
+    currentCertificat : "Поточний сертифікат"
   }
 }

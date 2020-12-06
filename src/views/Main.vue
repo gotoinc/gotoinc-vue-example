@@ -42,6 +42,7 @@
           <router-view></router-view>
         </v-row>
       </v-container>
+      <notifications group="notifications" />
     </v-main>
 
     <v-footer app>
@@ -80,7 +81,7 @@
       ...mapGetters(['isUniversityAdmin', 'isGroupAdmin', 'mainGroup'])
     },
     methods: {
-      ...mapActions(['logOut', 'loadProfile', 'testSocketMsg']),
+      ...mapActions(['logOut', 'loadProfile']),
       changeLocale(val) {
         if (this.locale !== val) {
           this.$store.dispatch('changeLocale', val).then(() => {

@@ -11,6 +11,7 @@ import env from '@/components/helpers/EnvVariables.js'
 import VueI18n from 'vue-i18n'
 import { messages } from './components/helpers/locales.js'
 import VueChatScroll from 'vue-chat-scroll'
+import Notifications from 'vue-notification'
 
 Vue.prototype.$http = Axios;
 
@@ -20,6 +21,7 @@ const token = localStorage.getItem('token')
 
 Vue.use(VueI18n)
 Vue.use(VueChatScroll)
+Vue.use(Notifications)
 
 Vue.use(ActionCableVue, {
   debug: true,

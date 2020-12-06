@@ -40,9 +40,12 @@ export default {
   },
   add_chat_message(state, { message, index }) {
     const messages = state.conversations[index].chat_messages
-    messages.push(message)
 
-    state.conversations[index].chat_messages =  messages
+    if (messages.findIndex(({id}) => id == message.id) === -1) {
+      messages.push(message)
+
+      state.conversations[index].chat_messages =  messages
+    }
   },
   set_current_conversation_id(state, payload) {
     Vue.set(state, 'currentConversationId', payload)

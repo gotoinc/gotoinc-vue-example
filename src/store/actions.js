@@ -2,6 +2,7 @@ import axios from 'axios'
 import router from '@/router'
 import env from '@/components/helpers/EnvVariables.js'
 import inPrimaryLocale from '../components/helpers/locales.js'
+import moment from 'moment'
 
 export default {
   login({commit}, credentials) {
@@ -56,16 +57,6 @@ export default {
     .catch((error) => {
       console.log(error)
     })
-  },
-  testSocketMsg({ state }) {
-    this.$cable.perform({
-      channel: 'UserChannel',
-      room: state.user.id,
-      action: 'say_hello',
-      data: {
-        content: 'Dima'
-      }
-    });
   },
   getGroups({ commit }, universityId) {
     axios({url: `${env.api}/universities/${universityId}/groups.json`, method: 'GET' })
@@ -145,5 +136,38 @@ export default {
   },
   createConversation(_, userId) {
     return axios({url: `${env.api}/conversations`, data: {user_id: userId}, method: 'POST' })
+  },
+  getAllBuildings({ state }, universityId) {
+    return axios({url: `${env.api}/universities/${universityId}/buildings.json`, method: 'GET' })
+      .then(resp => {
+        const buildings = resp.data.data.map(building => {
+          let tmp = building.attributes
+          tmp.name = inPrimaryLocale(tmp.name)
+          tmp.description = inPrimaryLocale(tmp.description)
+          tmp.location = inPrimaryLocale(tmp.location)
+          let startTime = tmp.available_time.mon[0]
+          let endTime = tmp.available_time.mon[tmp.available_time.mon.length -1]
+          if (startTime && endTime) {
+            tmp.availableTime = moment(`1.12.2020-${startTime}:00:00`).lang(state.locale).format('LT') + ' - ' + moment(`1.12.2020-${endTime}:00`).lang(state.locale).format('LT')
+          }
+          return tmp
+        })
+        return buildings
+      })
+  },
+  createEvent(_, data) {
+    return axios({url: `${env.api}/events`, data, method: 'POST' })
+  },
+  deleteEvent(_, eventId) {
+    return axios({url: `${env.api}/events/${eventId}.json`, method: 'DELETE' })
+  },
+  getAllGroups(_, universityId) {
+    return axios({url: `${env.api}/universities/${universityId}/groups.json`, method: 'GET' })
+  },
+  getCurrentCertificate() {
+    return axios({url: `${env.api}/certificate.json`, method: 'GET' })
+  },
+  createBuilding({ getters }, data) {
+    return axios({url: `${env.api}/universities/${getters.university.id}/buildings`, data, method: 'POST' })
   }
 }

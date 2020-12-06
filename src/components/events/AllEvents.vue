@@ -71,6 +71,20 @@
                 </template>
                 <span>{{ $t('willAttend') }}</span>
               </v-tooltip>
+              <v-tooltip bottom v-if="isGroupAdmin">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    :dark="$vuetify.theme.dark"
+                    icon
+                    v-bind="attrs"
+                    @click="cancelEvent(event.id)"
+                    v-on="on"
+                  >
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ $t('cancelEvent') }}</span>
+              </v-tooltip>
           </v-card-title>
 
 
@@ -141,7 +155,7 @@
 <script>
   import inPrimaryLocale from '../helpers/locales'
   import moment from 'moment'
-  import { mapState } from 'vuex'
+  import { mapGetters, mapState } from 'vuex'
 
   export default {
     data: () => ({
@@ -173,6 +187,8 @@
             let tmp = user.attributes ? { ...user.attributes } : { ...user }
             tmp.show = false
             tmp.isParticipant = tmp.users.findIndex(({data}) => data.id == this.user.id) !== -1
+            tmp.name = inPrimaryLocale(tmp.name)
+            tmp.description = inPrimaryLocale(tmp.description)
 
             if (tmp.building) {
               tmp.building.name_locale = inPrimaryLocale(tmp.building.name)
@@ -194,10 +210,18 @@
         } catch {
 
         }
+      },
+      cancelEvent(eventId) {
+        this.$store.dispatch('deleteEvent', eventId)
+          .then(() => {
+            const index = this.events.findIndex(({id}) => id == eventId)
+            this.events.splice(index, 1)
+          })
       }
     },
     computed: {
-      ...mapState(['locale', 'universities', 'user'])
+      ...mapState(['locale', 'universities', 'user']),
+      ...mapGetters(['isGroupAdmin'])
     },
     watch: {
       locale() {

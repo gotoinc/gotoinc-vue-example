@@ -1,7 +1,14 @@
 <template>
-  <v-alert dense type="error" class="mb-0">
+  <div>
+    <v-alert v-if="data" dense type="error" class="mb-0">
       {{ data }}
-  </v-alert>
+    </v-alert>
+    <template v-if="dataArray">
+      <v-alert :key="err" v-for="err in dataArray" dense type="error" class="mb-0">
+        {{ err }}
+      </v-alert>
+    </template>
+  </div>
 </template>
 
 <script>
@@ -10,6 +17,9 @@ export default {
   props: {
     data: {
       type: String
+    },
+    dataArray: {
+      type: Array
     }
   }
 }

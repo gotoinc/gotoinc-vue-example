@@ -52,6 +52,7 @@
   import { translateText } from '../../components/helpers/locales.js'
 
   export default {
+    name: 'add-group',
     components: {
       ErrorAlert
     },
