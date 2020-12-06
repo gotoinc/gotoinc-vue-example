@@ -1,0 +1,10 @@
+{
+  "name": "Universitu Events",
+  "version": "1.1.0",
+  "description": "The best app for planning events",
+  "author": "Dmytro Havrysh",
+  "private": true,
+  "scripts": {
+    "postinstall": "npm install express"
+  }
+}
