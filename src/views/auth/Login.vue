@@ -67,6 +67,7 @@
 <script>
   import ErrorAlert from '@/components/common/ErrorAlert'
   import { required, minLength, email } from 'vuelidate/lib/validators'
+  import env from '@/components/helpers/EnvVariables.js'
 
   export default {
     components: {
@@ -98,10 +99,14 @@
 
         if (validation.$invalid) {
 				  return false
-			  }
+        }
 
         this.$store.dispatch('login', this.form)
-          .then(() => this.$router.push('/'))
+          .then(() => {
+            const token = localStorage.getItem('token')
+            this.$cable.connection.connect(`${env.cable}?token=${token}`)
+            this.$router.push('/')
+          })
           .catch(err => {
             this.error = err
           })
