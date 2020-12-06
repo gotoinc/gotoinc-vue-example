@@ -12,10 +12,11 @@ module.exports = {
   //     cert: fs.readFileSync('../backend/.certs/cert.pem'),
   //   },
   //   hotOnly: false,
-  //  }
-  lintOnSave: false,
-
+  // },
+  // lintOnSave: false,
   pwa: {
     themeColor: '#2396F3'
-  }
+  },
+
+  lintOnSave: false
 };
