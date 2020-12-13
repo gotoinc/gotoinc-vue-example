@@ -95,7 +95,17 @@ export const messages = {
     validTo: "Valid until",
     update: "Update",
     certificates: "Certificates",
-    currentCertificat : "Current ertificat"
+    currentCertificat: "Current ertificat",
+    createBuilding: "Create building",
+    location: "Location",
+    area: "Area",
+    latitude: "Latitude",
+    longtitude: "Longtitude",
+    startTime: "Start time",
+    endTime: "End time",
+    createEvent: "Create event",
+    selectDate: "Select date",
+    selectBuilding: "Select building"
   },
   uk: {
     create: "Створити",
@@ -153,6 +163,16 @@ export const messages = {
     validTo: "Строк придатності закінсується",
     update: "Оновити",
     certificates: "Сертифікати",
-    currentCertificat : "Поточний сертифікат"
+    currentCertificat: "Поточний сертифікат",
+    createBuilding: "Додати приміщення",
+    location: "Адреса",
+    area: "Площа",
+    latitude: "Широта",
+    longtitude: "Долгота",
+    startTime: "Час початку",
+    endTime: "Час кінця",
+    createEvent: "Додати захід",
+    selectDate: "Виберіть дату",
+    selectBuilding: "Виберіть приміщення"
   }
 }

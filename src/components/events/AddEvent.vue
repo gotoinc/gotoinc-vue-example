@@ -14,7 +14,7 @@
                   <v-text-field
                     :label="$t('name')"
                     name="name"
-                    prepend-icon="mdi-account"
+                    prepend-icon="mdi-rename-box"
                     type="text"
                     v-model="form.name"
                     @input="$v.form.name.$touch()"
@@ -24,7 +24,7 @@
                   <v-textarea
                     :label="$t('description')"
                     name="description"
-                    prepend-icon="mdi-account"
+                    prepend-icon="mdi-card-text-outline"
                     v-model="form.description"
                     @input="$v.form.description.$touch()"
                     :class="{ 'clr-error': $v.form.description.$error }"

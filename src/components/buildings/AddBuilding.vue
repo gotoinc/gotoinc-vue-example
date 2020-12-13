@@ -14,7 +14,7 @@
                   <v-text-field
                     :label="$t('name')"
                     name="name"
-                    prepend-icon="mdi-account"
+                    prepend-icon="mdi-rename-box"
                     type="text"
                     v-model="form.name"
                     @input="$v.form.name.$touch()"
@@ -24,7 +24,7 @@
                   <v-text-field
                     :label="$t('description')"
                     name="description"
-                    prepend-icon="mdi-account"
+                    prepend-icon="mdi-card-text-outline"
                     type="text"
                     v-model="form.description"
                     @input="$v.form.description.$touch()"
@@ -34,7 +34,7 @@
                   <v-text-field
                     :label="$t('location')"
                     name="location"
-                    prepend-icon="mdi-account"
+                    prepend-icon="mdi-map-marker"
                     type="text"
                     v-model="form.location"
                     @input="$v.form.location.$touch()"
@@ -56,7 +56,7 @@
                       <v-text-field
                         :label="$t('latitude')"
                         name="lat"
-                        prepend-icon="mdi-account"
+                        prepend-icon="mdi-crosshairs"
                         type="number"
                         v-model="form.lat"
                         @input="$v.form.lat.$touch()"
@@ -68,7 +68,7 @@
                       <v-text-field
                         :label="$t('longtitude')"
                         name="lon"
-                        prepend-icon="mdi-account"
+                        prepend-icon="mdi-crosshairs-gps"
                         type="number"
                         v-model="form.lon"
                         @input="$v.form.lon.$touch()"
