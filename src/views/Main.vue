@@ -46,7 +46,7 @@
     </v-main>
 
     <v-footer app>
-      <span>&copy; 2020 | Dimon Hamlet</span>
+      <span>&copy; 2020 | Dmytro Havrysh</span>
     </v-footer>
   </v-app>
 </template>
