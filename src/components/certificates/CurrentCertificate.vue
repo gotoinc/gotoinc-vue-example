@@ -12,11 +12,11 @@
         {{ $t('validTo') }}: {{ expire_at }}
       </v-card-subtitle>
       <v-card-actions>
-        <v-btn
+        <!-- <v-btn
           color="orange"
         >
           {{ $t('update') }}
-        </v-btn>
+        </v-btn> -->
       </v-card-actions>
       <v-card-actions>
       </v-card-actions>

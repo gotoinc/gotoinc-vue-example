@@ -42,7 +42,7 @@
                     :error-messages="locationError($v.form.location)"
                   ></v-text-field>
                   <v-text-field
-                    :label="$t('area')"
+                    :label="`${$t('area')} ${locale === 'en' ? 'ft²' : 'm²'}`"
                     name="area"
                     prepend-icon="mdi-account"
                     type="number"

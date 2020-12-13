@@ -51,7 +51,7 @@ export default {
           value: 'location',
         },
         {
-          text: this.$t('area'),
+          text: `${this.$t('area')} ${this.locale === 'en' ? 'ft²' : 'm²'}`,
           align: 'start',
           value: 'area',
         },

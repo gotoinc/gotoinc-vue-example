@@ -145,6 +145,7 @@ export default {
           tmp.name = inPrimaryLocale(tmp.name)
           tmp.description = inPrimaryLocale(tmp.description)
           tmp.location = inPrimaryLocale(tmp.location)
+          tmp.area = state.locale === 'en' ? Math.round(+tmp.area * 10.7639) : tmp.area
           let startTime = tmp.available_time.mon[0]
           let endTime = tmp.available_time.mon[tmp.available_time.mon.length -1]
           if (startTime && endTime) {
