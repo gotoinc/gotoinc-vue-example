@@ -191,7 +191,7 @@
             sun: availbaleTime,
           }),
           lat: this.form.lat,
-          lat: this.form.lon,
+          lon: this.form.lon,
           area: this.form.area,
         }
 
