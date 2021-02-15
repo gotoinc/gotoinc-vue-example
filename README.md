@@ -1,4 +1,4 @@
-# frontend
+# Example of Vue app
 
 ## Project setup
 ```
