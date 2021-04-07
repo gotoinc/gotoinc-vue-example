@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import store from "@/store"
+import store from "@/store";
 
 Vue.use(VueRouter);
 
@@ -172,7 +172,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
   routes
 });
@@ -180,19 +180,19 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.state.token || localStorage.getItem('token')) {
-      next()
-      return
+      next();
+      return;
     }
-    next('/login') 
+    next('/login')
   } else if (to.matched.some(record => record.meta.guest)) {
     if (store.state.token || localStorage.getItem('token')) {
-      next('/')
-      return
+      next('/');
+      return;
     }
-    next() 
+    next();
   } else {
-    next() 
+    next();
   }
-})
+});
 
 export default router;

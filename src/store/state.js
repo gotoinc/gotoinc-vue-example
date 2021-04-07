@@ -1,7 +1,7 @@
 export default {
   status: '',
   token: localStorage.getItem('token') || '',
-  user : {},
+  user: {},
   groups: [],
   universities: [],
   locale: 'en',
