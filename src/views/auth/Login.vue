@@ -67,9 +67,10 @@ import { required, minLength, email } from "vuelidate/lib/validators"
 import env from "@/components/helpers/EnvVariables.js"
 
 export default {
-	components: {
-		ErrorAlert
-	},
+	name: 'Login',
+
+	components: { ErrorAlert },
+
 	data() {
 		return {
 			form: {
@@ -79,16 +80,7 @@ export default {
 			error: "",
 		};
 	},
-	computed: {},
-	validations: {
-		form: {
-			login: { required, email },
-			password: { required, minLength: minLength(6) }
-		}
-	},
-	created() {
-		this.$vuetify.theme.dark = false;
-	},
+
 	methods: {
 
 		submit(validation) {
@@ -143,6 +135,17 @@ export default {
 				}
 			]);
 		}
+	},
+
+	created() {
+		this.$vuetify.theme.dark = false;
+	},
+
+	validations: {
+		form: {
+			login: { required, email },
+			password: { required, minLength: minLength(6) }
+		}
 	}
-};
+}
 </script>
