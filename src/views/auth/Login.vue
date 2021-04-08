@@ -65,6 +65,7 @@
 import ErrorAlert from "@/components/common/ErrorAlert"
 import { required, minLength, email } from "vuelidate/lib/validators"
 import env from "@/components/helpers/EnvVariables.js"
+import errors from '@/constants/errors.js'
 
 export default {
 	name: 'Login',
@@ -87,7 +88,7 @@ export default {
 			this.$v.$touch()
 
 			if (validation.$invalid) {
-				return false;
+				return false
 			}
 
 			this.$store.dispatch("login", this.form)
@@ -97,7 +98,7 @@ export default {
 				  this.$router.push("/")
 			  })
 			  .catch(err => {
-				  this.error = err;
+				  this.error = err
 			  });
 		},
 
@@ -112,33 +113,19 @@ export default {
 
 		loginErrors(value) {
 			return this.generateErrors(value, [
-				{
-					rule: "required",
-					message: "Login is required"
-				},
-				{
-					rule: "email",
-					message: "Invalid email"
-				}
+				...errors.login
 			])
 		},
 
 		passwordErrors(value) {
 			return this.generateErrors(value, [
-				{
-					rule: "required",
-					message: "Password is required"
-				},
-				{
-					rule: "minLength",
-					message: "Password is too short"
-				}
+				...errors.password
 			]);
 		}
 	},
 
 	created() {
-		this.$vuetify.theme.dark = false;
+		this.$vuetify.theme.dark = false
 	},
 
 	validations: {
