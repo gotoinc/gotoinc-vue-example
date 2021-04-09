@@ -1,41 +1,41 @@
-import store from '../../store'
-import axios from 'axios'
-import env from '@/components/helpers/EnvVariables.js'
+import store from "../../store";
+import axios from "axios";
+import env from "@/components/helpers/EnvVariables.js";
 
 export default function inPrimaryLocale(text) {
-  const currentLocale = store.state.locale || 'en'
+  const currentLocale = store.state.locale || "en";
   try {
-    const result = JSON.parse(text)[currentLocale]
-    return result
+    const result = JSON.parse(text)[currentLocale];
+    return result;
   } catch {
-    return text
-  } 
+    return text;
+  }
 }
 
 export function translateText(content) {
-  const currentLocale = store.state.locale || 'en'
-  const to_language = currentLocale === 'en' ? 'uk' : 'en'
+  const currentLocale = store.state.locale || "en";
+  const to_language = currentLocale === "en" ? "uk" : "en";
 
   const data = {
     content,
     to_language
-  }
+  };
 
-  return axios({url: `${env.api}/translate`, data: data, method: 'POST' })
+  return axios({ url: `${env.api}/translate`, data: data, method: "POST" })
     .then(resp => {
-      const { text } = resp.data
+      const { text } = resp.data;
       return JSON.stringify({
         [currentLocale]: content,
         [to_language]: text
-      })
+      });
     })
     .catch(err => {
-      console.log(err.response)
+      console.log(err.response);
       return JSON.stringify({
         [currentLocale]: content,
-        [to_language]: content,
-      })
-    })  
+        [to_language]: content
+      });
+    });
 }
 
 export const messages = {
@@ -65,7 +65,7 @@ export const messages = {
     buildings: "Buildings",
     allBuildings: "All buildings",
     addBuilding: "Add building",
-    events: 'Events',
+    events: "Events",
     allEvents: "All events",
     addEvent: "Add event",
     eventsCalendar: "Calendar",
@@ -133,7 +133,7 @@ export const messages = {
     buildings: "Приміщення",
     allBuildings: "Всі приміщення",
     addBuilding: "Додати приміщення",
-    events: 'Заходи',
+    events: "Заходи",
     allEvents: "Всі заходи",
     addEvent: "Додати захід",
     eventsCalendar: "Календар",
@@ -175,4 +175,4 @@ export const messages = {
     selectDate: "Виберіть дату",
     selectBuilding: "Виберіть приміщення"
   }
-}
+};

@@ -4,7 +4,13 @@
       {{ data }}
     </v-alert>
     <template v-if="dataArray">
-      <v-alert :key="err" v-for="err in dataArray" dense type="error" class="mb-0">
+      <v-alert
+        :key="err"
+        v-for="err in dataArray"
+        dense
+        type="error"
+        class="mb-0"
+      >
         {{ err }}
       </v-alert>
     </template>
@@ -13,7 +19,7 @@
 
 <script>
 export default {
-  name: 'ErrorAlert',
+  name: "ErrorAlert",
   props: {
     data: {
       type: String
@@ -22,5 +28,5 @@ export default {
       type: Array
     }
   }
-}
+};
 </script>

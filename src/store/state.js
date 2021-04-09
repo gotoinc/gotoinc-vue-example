@@ -1,9 +1,9 @@
 export default {
-  status: '',
-  token: localStorage.getItem('token') || '',
+  status: "",
+  token: localStorage.getItem("token") || "",
   user: {},
   groups: [],
   universities: [],
-  locale: 'en',
+  locale: "en",
   conversations: []
-}
+};
