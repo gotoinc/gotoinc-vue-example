@@ -19,8 +19,8 @@
 									  type="text"
 									  v-model="form.email"
 									  prepend-icon="mdi-account"
-									  @input="$v.form.email.$touch()"
-									  @blur="$v.form.email.$touch()"
+									  @input="handleTouch('email')"
+									  @blur="handleTouch('email')"
 									  :class="{
                                          'clr-error': $v.form.email.$dirty && $v.form.email.$error
                                       }"
@@ -34,8 +34,8 @@
 									  type="password"
 									  v-model="form.password"
 									  prepend-icon="mdi-lock"
-									  @input="$v.form.password.$touch()"
-									  @blur="$v.form.password.$touch()"
+									  @input="handleTouch('password')"
+									  @blur="handleTouch('password')"
 									  :class="{ 'clr-error': $v.form.password.$error }"
 									  :error-messages="getVuelidateError($v.form.password, 'password')"
 									  required
@@ -88,8 +88,11 @@ export default {
 	},
 
 	methods: {
-
 		getVuelidateError,
+
+		handleTouch(field) {
+			this.$v.form[field].touch()
+		},
 
 		submit(validation) {
 			this.$v.$touch();
