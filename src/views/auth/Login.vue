@@ -5,6 +5,7 @@
 				<v-row align="center" justify="center">
 					<v-col cols="12" sm="8" md="4">
 						<v-card class="elevation-12">
+							
 							<v-toolbar color="primary" dark flat>
 								<v-toolbar-title>Sign in form</v-toolbar-title>
 								<v-spacer />
@@ -90,33 +91,31 @@ export default {
 	methods: {
 		getVuelidateError,
 
-		handleTouch(field) {
-			this.$v.form[field].touch()
-		},
+		handleTouch(field) { this.$v.form[field].$touch() },
 
 		submit(validation) {
-			this.$v.$touch();
+			this.$v.$touch()
 
 			if (validation.$invalid) {
-				return false;
+				return false
 			}
 
 			this.$store
 			  .dispatch("login", this.form)
 			  .then(() => {
-				  const token = localStorage.getItem("token");
-				  this.$cable.connection.connect(`${env.cable}?token=${token}`);
-				  this.$router.push("/");
+				  const token = localStorage.getItem("token")
+				  this.$cable.connection.connect(`${env.cable}?token=${token}`)
+				  this.$router.push("/")
 			  })
 			  .catch(err => {
-				  this.error = err;
-			  });
+				  this.error = err
+			  })
 		},
 
 	},
 
 	created() {
-		this.$vuetify.theme.dark = false;
+		this.$vuetify.theme.dark = false
 	},
 
 	validations: {
