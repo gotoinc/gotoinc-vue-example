@@ -1,7 +1,1 @@
-import { mount } from '@vue/test-utils'
-import generateValidateErrorMessage from "@/utils/generateValidationErrorMessage"
-import errors from "@/constants/errors.js"
-
-test('creation of error message', () => {
-	expect(generateValidateErrorMessage('login',))
-})
+import generateValidateErrorMessage from '@/utils/getVuelidateError';import errors from '@/constants/errors';describe('Tests for "generateValidateErrorMessage()" function', () => {  test('should be defined', () => {    expect(generateValidateErrorMessage).toBeDefined();  });  test('should return empty array when !$dirty', () => {    const _vuelidateItemObject = { $dirty: false };    expect(generateValidateErrorMessage(_vuelidateItemObject)).toEqual([]);  });  test('should return string[] if args are correct', () => {    const _vuelidateItemObject = {      $dirty: true,      required: false,      email: false,    };    const _fieldName = Object.keys(errors)[0];    const _result = [...errors[_fieldName].map(errorObj => errorObj.message)];    expect(      generateValidateErrorMessage(_vuelidateItemObject, _fieldName)    ).toEqual(_result);  });});

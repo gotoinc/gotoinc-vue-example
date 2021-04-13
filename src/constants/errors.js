@@ -1,22 +1,22 @@
 export default {
   email: [
     {
-      rule: "required",
-      message: "Email is required"
+      rule: 'required',
+      message: 'Email is required',
     },
     {
-      rule: "email",
-      message: "Invalid email"
-    }
+      rule: 'email',
+      message: 'Invalid email',
+    },
   ],
   password: [
     {
-      rule: "required",
-      message: "Password is required"
+      rule: 'required',
+      message: 'Password is required',
     },
     {
-      rule: "minLength",
-      message: "Password is too short"
-    }
-  ]
+      rule: 'minLength',
+      message: 'Password is too short',
+    },
+  ],
 };
