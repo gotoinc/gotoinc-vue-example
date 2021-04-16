@@ -4,8 +4,8 @@
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
-
             <v-card class="elevation-12">
+
               <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>Sign in form</v-toolbar-title>
                 <v-spacer />
@@ -13,28 +13,30 @@
 
               <v-card-text>
                 <v-form>
+
                   <!-- login -->
                   <v-text-field
                     label="Email"
                     type="text"
                     v-model="form.email"
                     prepend-icon="mdi-account"
-                    @input="handleTouch('email')"
-                    @blur="handleTouch('email')"
+                    @input="$v.form.email.$touch()"
+                    @blur="$v.form.email.$touch()"
                     :class="{
                       'clr-error': $v.form.email.$dirty && $v.form.email.$error
                     }"
                     :error-messages="getVuelidateError($v.form.email, 'email')"
                     required
                   />
+
                   <!-- password -->
                   <v-text-field
                     label="Password"
                     type="password"
                     v-model="form.password"
                     prepend-icon="mdi-lock"
-                    @input="handleTouch('password')"
-                    @blur="handleTouch('password')"
+                    @input="$v.form.password.$touch()"
+                    @blur="$v.form.password.$touch()"
                     :class="{ 'clr-error': $v.form.password.$error }"
                     :error-messages="getVuelidateError(
                       $v.form.password,
@@ -42,6 +44,7 @@
                     )"
                     required
                   />
+
                 </v-form>
               </v-card-text>
 
@@ -69,14 +72,14 @@
 import ErrorAlert from '@/components/common/ErrorAlert';
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import env from '@/components/helpers/EnvVariables.js';
-import getVuelidateError from '@/utils/getVuelidateError';
+import { getVuelidateError } from '@/utils/validation';
 
 /**
  * @property {Object} $v
  */
 
 export default {
-  name: 'Login',
+  // name: 'Login',
 
   components: { ErrorAlert },
 
@@ -86,16 +89,14 @@ export default {
         email: '',
         password: ''
       },
+
+      // does it really needs to be shown????
       error: ''
     };
   },
 
   methods: {
     getVuelidateError,
-
-    handleTouch(field) {
-      this.$v.form[field].$touch();
-    },
 
     submit(validation) {
       this.$v.$touch();
@@ -111,6 +112,8 @@ export default {
           this.$cable.connection.connect(`${env.cable}?token=${token}`);
           this.$router.push('/');
         })
+
+        // does it really needs to be shown????
         .catch((err) => {
           this.error = err;
         });

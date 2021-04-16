@@ -4,6 +4,7 @@
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
+
             <v-card class="elevation-12">
               <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>Sign up form</v-toolbar-title>
@@ -20,8 +21,12 @@
                     type="email"
                     v-model="form.email"
                     @input="$v.form.email.$touch()"
-                    :class="{ 'clr-error': $v.form.email.$error }"
-                    :error-messages="emailError($v.form.email)"
+                    @blur="$v.form.email.$touch()"
+                    :class="{
+                      'clr-error': $v.form.email.$dirty && $v.form.email.$error
+                    }"
+                    :error-messages="getVuelidateError($v.form.email, 'email')"
+                    required
                   />
 
                   <!-- name -->
@@ -109,31 +114,133 @@
 </template>
 
 <script>
-//import { mapActions } from 'vuex'
-import ErrorAlert from "@/components/common/ErrorAlert";
-import { required, minLength, email, sameAs } from "vuelidate/lib/validators";
-import { mapState } from "vuex";
+import ErrorAlert from '@/components/common/ErrorAlert';
+import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
+import { mapState } from 'vuex';
+import { getVuelidateError } from '@/utils/validation';
 
 export default {
-  components: {
-    ErrorAlert
-  },
+  name: 'Register',
+
+  components: { ErrorAlert },
+
   data() {
     return {
       form: {
-        email: "",
-        name: "",
-        last_name: "",
-        password: "",
-        repeatPassword: "",
-        group_id: null
+        email: '',
+        name: '',
+        last_name: '',
+        password: '',
+        repeatPassword: '',
+        group_id: null,
       },
-      error: ""
+      error: '',
     };
   },
-  computed: {
-    ...mapState(["groups"])
+
+  methods: {
+    getVuelidateError,
+
+    handleTouch(field) {
+      this.$v.form[field].$touch();
+    },
+
+    register(validation) {
+      this.$v.$touch();
+
+      if (validation.$invalid) {
+        return false;
+      }
+
+      this.$store
+        .dispatch('register', this.form)
+        .then(() => this.$router.push('/'))
+        .catch(err => {
+          this.error = err;
+        });
+    },
+
+    emailError(field) {
+      if (!field.$dirty) {
+        return;
+      } else if (!field.required) {
+        return 'Email is required';
+      } else if (!field.email) {
+        return 'Invalid email';
+      } else {
+        return [];
+      }
+    },
+
+    nameError(field) {
+      if (!field.$dirty) {
+        return;
+      } else if (!field.required) {
+        return 'Name is required';
+      } else if (!field.minLength) {
+        return 'Name is too short';
+      } else {
+        return [];
+      }
+    },
+
+    lastNameError(field) {
+      if (!field.$dirty) {
+        return;
+      } else if (!field.required) {
+        return 'Last name is required';
+      } else if (!field.minLength) {
+        return 'Last name is too short';
+      } else {
+        return [];
+      }
+    },
+
+    passwordError(field) {
+      if (!field.$dirty) {
+        return;
+      } else if (!field.required) {
+        return 'Password is required';
+      } else if (!field.minLength) {
+        return 'Password is too short';
+      } else {
+        return [];
+      }
+    },
+
+    repeatPasswordError(field) {
+      if (!field.$dirty) {
+        return;
+      } else if (!field.required) {
+        return 'Repeat password';
+      } else if (!field.sameAsPassword) {
+        return 'Passwords do not match';
+      } else {
+        return [];
+      }
+    },
+
+    groupError(field) {
+      if (!field.$dirty) {
+        return;
+      } else if (!field.required) {
+        return 'Group is required';
+      } else {
+        return [];
+      }
+    },
+
   },
+
+  created() {
+    this.$vuetify.theme.dark = false;
+    this.$store.dispatch('getGroups');
+  },
+
+  computed: {
+    ...mapState(['groups']),
+  },
+
   validations: {
     form: {
       email: { required, email },
@@ -144,94 +251,11 @@ export default {
         required,
         sameAsPassword: sameAs(function() {
           return this.form.password;
-        })
+        }),
       },
-      group_id: { required }
-    }
+      group_id: { required },
+    },
   },
-  created() {
-    this.$vuetify.theme.dark = false;
-    this.$store.dispatch("getGroups");
-  },
-  methods: {
-    register(validation) {
-      this.$v.$touch();
 
-      if (validation.$invalid) {
-        return false;
-      }
-
-      this.$store
-        .dispatch("register", this.form)
-        .then(() => this.$router.push("/"))
-        .catch(err => {
-          this.error = err;
-        });
-    },
-    emailError(field) {
-      if (!field.$dirty) {
-        return;
-      } else if (!field.required) {
-        return "Email is required";
-      } else if (!field.email) {
-        return "Invalid email";
-      } else {
-        return [];
-      }
-    },
-    nameError(field) {
-      if (!field.$dirty) {
-        return;
-      } else if (!field.required) {
-        return "Name is required";
-      } else if (!field.minLength) {
-        return "Name is too short";
-      } else {
-        return [];
-      }
-    },
-    lastNameError(field) {
-      if (!field.$dirty) {
-        return;
-      } else if (!field.required) {
-        return "Last name is required";
-      } else if (!field.minLength) {
-        return "Last name is too short";
-      } else {
-        return [];
-      }
-    },
-    passwordError(field) {
-      if (!field.$dirty) {
-        return;
-      } else if (!field.required) {
-        return "Password is required";
-      } else if (!field.minLength) {
-        return "Password is too short";
-      } else {
-        return [];
-      }
-    },
-    repeatPasswordError(field) {
-      if (!field.$dirty) {
-        return;
-      } else if (!field.required) {
-        return "Repeat password";
-      } else if (!field.sameAsPassword) {
-        return "Passwords do not match";
-      } else {
-        return [];
-      }
-    },
-    groupError(field) {
-      if (!field.$dirty) {
-        return;
-      } else if (!field.required) {
-        return "Group is required";
-      } else {
-        return [];
-      }
-    }
-  }
 };
 </script>

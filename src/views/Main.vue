@@ -1,5 +1,6 @@
 <template>
   <v-app id="inspire">
+
     <v-navigation-drawer v-model="drawer" app clipped>
       <Menu></Menu>
     </v-navigation-drawer>
@@ -24,7 +25,9 @@
         :label="$t('darkMode')"
         class="switch-mode"
       ></v-switch>
-      <v-btn small right @click.prevent="logOut">{{ $t("logOut") }}</v-btn>
+      <v-btn small right @click.prevent="logOut">
+        {{ $t("logOut") }}
+      </v-btn>
     </v-app-bar>
 
     <v-main>
@@ -43,14 +46,18 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
-import Channels from "@/components/mixins/Channels";
-import Menu from "@/components/common/Menu";
-import inPrimaryLocale from "@/components/helpers/locales.js";
+import { mapActions, mapGetters, mapState } from 'vuex';
+import Channels from '@/components/mixins/Channels';
+import Menu from '@/components/common/Menu';
+import inPrimaryLocale from '@/components/helpers/locales.js';
 
 export default {
+  name: 'Main',
+
   mixins: [Channels],
+
   components: { Menu },
+
   data() {
     return {
       drawer: null,
@@ -58,6 +65,7 @@ export default {
       localeModel: "en"
     };
   },
+
   created() {
     this.$vuetify.theme.dark = true;
     this.loadProfile().then(attributes => {
@@ -67,30 +75,36 @@ export default {
       this.$vuetify.lang.current = locale;
     });
   },
+
   computed: {
-    ...mapState(["locale", "user"]),
-    ...mapGetters(["isUniversityAdmin", "isGroupAdmin", "mainGroup"])
+    ...mapState(['locale', 'user']),
+    ...mapGetters(['isUniversityAdmin', 'isGroupAdmin', 'mainGroup']),
   },
+
   methods: {
-    ...mapActions(["logOut", "loadProfile"]),
+    ...mapActions(['logOut', 'loadProfile']),
+
     changeLocale(val) {
       if (this.locale !== val) {
-        this.$store.dispatch("changeLocale", val).then(() => {
+        this.$store.dispatch('changeLocale', val).then(() => {
           this.$i18n.locale = val;
           this.$vuetify.lang.current = val;
-          this.$store.commit("set_locale", val);
+          this.$store.commit('set_locale', val);
         });
       }
     },
+
     inPrimaryLocale(text) {
       return inPrimaryLocale(text);
     }
   },
+
   watch: {
     darkMode(val) {
       this.$vuetify.theme.dark = val;
     }
   }
+
 };
 </script>
 

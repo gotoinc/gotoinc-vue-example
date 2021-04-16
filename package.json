@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit --setupTestFrameworkScriptFile=./tests/setup.js",
+    "test:unit": "vue-cli-service test:unit --setupTestFrameworkScriptFile=./tests/setup.js --watch",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -24,6 +24,7 @@
     "vuex": "^3.4.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.10",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-pwa": "~4.5.0",

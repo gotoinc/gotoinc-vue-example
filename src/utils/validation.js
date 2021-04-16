@@ -1,6 +1,6 @@
 import errors from '@/constants/errors.js';
 
-export default (vuelidateItemObject, name) => {
+export const getVuelidateError = (vuelidateItemObject, name) => {
   const result = [];
 
   if (!vuelidateItemObject.$dirty) return result;
