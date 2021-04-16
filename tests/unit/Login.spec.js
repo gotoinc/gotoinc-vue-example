@@ -1,4 +1,4 @@
-import { mount, createLocalVue } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
 import Vuetify from 'vuetify';
 import VueRouter from 'vue-router';
 import Login from '@/views/auth/Login';
@@ -13,14 +13,14 @@ describe('Login.vue', () => {
     vuetify = new Vuetify();
     router = new VueRouter();
 
-    wrapper = mount(Login, {
+    wrapper = shallowMount(Login, {
       localVue,
       vuetify,
       router,
     });
   });
 
-  it('component should be defined', () => {
+  it('should be defined', () => {
     expect(wrapper).toBeDefined();
   });
 });

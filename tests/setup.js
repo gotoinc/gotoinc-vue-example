@@ -4,7 +4,7 @@ import Vuelidate from 'vuelidate';
 import VueRouter from 'vue-router';
 import { createLocalVue } from '@vue/test-utils';
 
-// ...yeap :)
+// make pre-configured localVue instance
 global._localVue = createLocalVue();
 
 // plugins for _localVue.use()

@@ -73,6 +73,7 @@ import ErrorAlert from '@/components/common/ErrorAlert';
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import env from '@/components/helpers/EnvVariables.js';
 import { getVuelidateError } from '@/utils/validation';
+import { mapActions } from 'vuex';
 
 /**
  * @property {Object} $v
@@ -96,6 +97,8 @@ export default {
   },
 
   methods: {
+    ...mapActions(['login']),
+
     getVuelidateError,
 
     submit(validation) {
@@ -105,18 +108,27 @@ export default {
         return false;
       }
 
-      this.$store
-        .dispatch('login', this.form)
+      this.login()
         .then(() => {
           const token = localStorage.getItem('token');
           this.$cable.connection.connect(`${env.cable}?token=${token}`);
           this.$router.push('/');
         })
-
-        // does it really needs to be shown????
         .catch((err) => {
           this.error = err;
         });
+
+      // this.$store
+      //   .dispatch('login', this.form)
+      //   .then(() => {
+      //     const token = localStorage.getItem('token');
+      //     this.$cable.connection.connect(`${env.cable}?token=${token}`);
+      //     this.$router.push('/');
+      //   })
+      //
+      //   .catch((err) => {
+      //     this.error = err;
+      //   });
     }
   },
 
